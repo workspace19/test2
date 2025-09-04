@@ -1,6 +1,6 @@
 import React from "react";
-import QRScanner from "./components/QRScanner";
-import ParticipantList from "./components/ParticipantList";
+import QRScanner from "./QRScanner";
+import ParticipantList from "./ParticipantList";
 
 function App() {
   return (
