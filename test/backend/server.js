@@ -285,4 +285,27 @@ app.patch("/api/assistance/:id", (req, res) => {
   );
 });
 
+// Health and root routes
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+app.get("/", (req, res) => {
+  res.type("text/plain").send(
+    "Hackathon API is running.\n" +
+      "Available endpoints:\n" +
+      "GET  /health\n" +
+      "GET  /api/participants\n" +
+      "POST /api/participants\n" +
+      "POST /api/attendance/:roll_number\n" +
+      "GET  /api/participant/:roll_number\n" +
+      "POST /api/upload-csv\n" +
+      "GET  /api/announcements\n" +
+      "POST /api/announcements\n" +
+      "GET  /api/assistance\n" +
+      "POST /api/assistance\n" +
+      "PATCH /api/assistance/:id\n"
+  );
+});
+
 app.listen(5000, () => console.log("Server running on http://localhost:5000"));
