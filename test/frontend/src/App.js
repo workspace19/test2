@@ -12,6 +12,7 @@ function App() {
   const [assistTable, setAssistTable] = useState("");
   const [csvFile, setCsvFile] = useState(null);
   const [newAnnouncement, setNewAnnouncement] = useState("");
+  const [attendanceRoll, setAttendanceRoll] = useState("");
 
   const fetchAnnouncements = async () => {
     const res = await axios.get("/api/announcements");
@@ -19,6 +20,10 @@ function App() {
   };
 
   const lookupParticipant = async () => {
+    if (!lookupRoll.trim()) {
+      alert("Please enter a roll number");
+      return;
+    }
     try {
       const res = await axios.get(
         `/api/participant/${encodeURIComponent(lookupRoll)}`
@@ -59,6 +64,21 @@ function App() {
     });
     setNewAnnouncement("");
     await fetchAnnouncements();
+  };
+
+  const markAttendance = async () => {
+    const roll = attendanceRoll.trim();
+    if (!roll) {
+      alert("Enter a roll number");
+      return;
+    }
+    try {
+      await axios.post(`/api/attendance/${encodeURIComponent(roll)}`);
+      alert("Attendance marked");
+      setAttendanceRoll("");
+    } catch (e) {
+      alert("Failed to mark attendance");
+    }
   };
 
   return (
@@ -120,11 +140,6 @@ function App() {
             <br />
             <button onClick={submitAssistance}>Submit Request</button>
           </div>
-
-          <div style={{ marginBottom: 16 }}>
-            <h2>QR Attendance</h2>
-            <QRScanner />
-          </div>
         </div>
       )}
 
@@ -145,6 +160,22 @@ function App() {
               />
               <button type="submit">Upload</button>
             </form>
+          </div>
+
+          <div style={{ marginBottom: 16 }}>
+            <h2>Mark Attendance</h2>
+            <input
+              placeholder="Enter roll number"
+              value={attendanceRoll}
+              onChange={(e) => setAttendanceRoll(e.target.value)}
+            />
+            <button onClick={markAttendance}>Mark Present</button>
+            <div style={{ marginTop: 8 }}>
+              <strong>QR Attendance</strong>
+              <div>
+                <QRScanner />
+              </div>
+            </div>
           </div>
 
           <div style={{ marginBottom: 16 }}>
