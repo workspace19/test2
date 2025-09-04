@@ -5,7 +5,7 @@ export default function ParticipantList() {
   const [participants, setParticipants] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/participants").then((res) => {
+    axios.get("/api/participants").then((res) => {
       setParticipants(res.data);
     });
   }, []);

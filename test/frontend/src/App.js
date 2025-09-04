@@ -14,14 +14,14 @@ function App() {
   const [newAnnouncement, setNewAnnouncement] = useState("");
 
   const fetchAnnouncements = async () => {
-    const res = await axios.get("http://localhost:5000/api/announcements");
+    const res = await axios.get("/api/announcements");
     setAnnouncements(res.data);
   };
 
   const lookupParticipant = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/participant/${encodeURIComponent(lookupRoll)}`
+        `/api/participant/${encodeURIComponent(lookupRoll)}`
       );
       setParticipant(res.data);
     } catch (e) {
@@ -31,7 +31,7 @@ function App() {
   };
 
   const submitAssistance = async () => {
-    await axios.post("http://localhost:5000/api/assistance", {
+    await axios.post("/api/assistance", {
       roll_number: participant?.roll_number || lookupRoll || undefined,
       table_number: assistTable || undefined,
       message: assistMessage || undefined,
@@ -46,7 +46,7 @@ function App() {
     if (!csvFile) return alert("Choose a CSV file first");
     const form = new FormData();
     form.append("file", csvFile);
-    const res = await axios.post("http://localhost:5000/api/upload-csv", form, {
+    const res = await axios.post("/api/upload-csv", form, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     alert(`CSV processed. Inserted: ${res.data.inserted}, Updated: ${res.data.updated}`);
@@ -54,7 +54,7 @@ function App() {
 
   const createAnnouncement = async () => {
     if (!newAnnouncement.trim()) return;
-    await axios.post("http://localhost:5000/api/announcements", {
+    await axios.post("/api/announcements", {
       message: newAnnouncement.trim(),
     });
     setNewAnnouncement("");

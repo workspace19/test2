@@ -9,7 +9,7 @@ export default function QRScanner() {
     scanner.render(async (decodedText) => {
       alert(`Scanned: ${decodedText}`);
       try {
-        await axios.post(`http://localhost:5000/api/attendance/${decodedText}`);
+        await axios.post(`/api/attendance/${decodedText}`);
         alert("Attendance marked ✅");
       } catch (err) {
         alert("Error marking attendance");
